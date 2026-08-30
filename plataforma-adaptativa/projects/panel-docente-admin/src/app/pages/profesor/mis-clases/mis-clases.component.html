@@ -1,0 +1,92 @@
+<div class="portal-layout">
+  <!-- Topbar Header -->
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-icon" aria-hidden="true">📚</span>
+      <div class="brand-text">
+        <span class="school-name">Colegio Demo</span>
+        <span class="portal-tag">Portal Docente</span>
+      </div>
+    </div>
+    <div class="user-meta">
+      <div class="user-info">
+        <span class="user-name">Prof. {{ auth.currentUser()?.nombre }} {{ auth.currentUser()?.apellido }}</span>
+        <span class="user-role-badge">Docente Titular</span>
+      </div>
+      <button class="logout-btn" (click)="auth.logout()" aria-label="Cerrar sesión">
+        Cerrar Sesión
+      </button>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <div class="page-header">
+      <div>
+        <h1 class="page-title">Mis Clases</h1>
+        <p class="page-subtitle">
+          Ciclo Académico 2026 &bull; Gestión y configuración de rutas de aprendizaje
+        </p>
+      </div>
+    </div>
+
+    <!-- Loading State -->
+    @if (cursoService.isLoading()) {
+      <div class="loading-state">
+        <span class="spinner" aria-hidden="true"></span>
+        <p>Cargando tus clases...</p>
+      </div>
+    } @else {
+      <!-- Classes Grid -->
+      @if (cursoService.cursos().length > 0) {
+        <div class="classes-grid">
+          @for (curso of cursoService.cursos(); track curso.id) {
+            <article class="class-card">
+              <div class="card-header">
+                <span class="badge-materia">{{ curso.materia }}</span>
+                @if (curso.grafo_aprobado) {
+                  <span class="status-pill status-approved">
+                    <span class="dot"></span> Grafo Aprobado
+                  </span>
+                } @else {
+                  <span class="status-pill status-pending">
+                    <span class="dot"></span> Grafo Pendiente
+                  </span>
+                }
+              </div>
+
+              <div class="card-body">
+                <h2 class="class-name">{{ curso.nombre }}</h2>
+                <div class="grade-section">
+                  <span class="grade-tag">{{ curso.grado }} &bull; Sección {{ curso.seccion }}</span>
+                </div>
+                
+                <div class="access-code-box">
+                  <span class="code-label">Código de Acceso:</span>
+                  <strong class="code-val">{{ curso.codigo_acceso }}</strong>
+                </div>
+
+                <div class="classroom-specs">
+                  <span>📐 Cuadrícula: {{ curso.aula_filas }}×{{ curso.aula_columnas }}</span>
+                  <span>📅 Ciclo {{ curso.ciclo }}</span>
+                </div>
+              </div>
+
+              <div class="card-actions">
+                <a [routerLink]="['/profesor/clases', curso.id]" class="open-class-btn">
+                  Abrir Espacio de Clase →
+                </a>
+              </div>
+            </article>
+          }
+        </div>
+      } @else {
+        <div class="empty-state">
+          <span class="empty-icon">📂</span>
+          <h3>No tienes cursos asignados actualmente</h3>
+          <p>Contacta a la administración escolar para que te asignen a un aula del ciclo 2026.</p>
+        </div>
+      }
+    }
+  </main>
+</div>

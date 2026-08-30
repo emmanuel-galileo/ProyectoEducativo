@@ -1,0 +1,169 @@
+<div class="workspace-layout">
+  <!-- Topbar Header -->
+  <header class="topbar">
+    <div class="brand">
+      <a routerLink="/profesor/clases" class="back-link" aria-label="Volver a mis clases">
+        ← Mis Clases
+      </a>
+      <span class="divider-slash">/</span>
+      <span class="current-class-title">{{ curso()?.nombre || 'Espacio de Clase' }}</span>
+    </div>
+    <div class="user-meta">
+      <span class="user-name">Prof. {{ auth.currentUser()?.nombre }} {{ auth.currentUser()?.apellido }}</span>
+      <button class="logout-btn" (click)="auth.logout()">Cerrar Sesión</button>
+    </div>
+  </header>
+
+  <!-- Workspace Body -->
+  <main class="workspace-body">
+    @if (cursoService.isLoading()) {
+      <div class="loading-state">
+        <span class="spinner" aria-hidden="true"></span>
+        <p>Cargando información del curso...</p>
+      </div>
+    } @else if (curso(); as item) {
+      <!-- Course Hero Header -->
+      <header class="course-hero">
+        <div class="hero-main">
+          <div class="tags-row">
+            <span class="badge-materia">{{ item.materia }}</span>
+            <span class="badge-grade">{{ item.grado }} &bull; Sección {{ item.seccion }}</span>
+            <span class="badge-code">Código: {{ item.codigo_acceso }}</span>
+          </div>
+          <h1 class="course-title">{{ item.nombre }}</h1>
+          <p class="course-meta">
+            Ciclo Escolar {{ item.ciclo }} &bull; Dimensiones de aula: {{ item.aula_filas }} filas × {{ item.aula_columnas }} columnas
+          </p>
+        </div>
+
+        <div class="hero-status">
+          @if (item.grafo_aprobado) {
+            <div class="status-box status-active">
+              <span class="status-icon">✅</span>
+              <div>
+                <strong>Grafo Curricular Activo</strong>
+                <p>El aula está lista para diagnósticos y rutas de aprendizaje.</p>
+              </div>
+            </div>
+          } @else {
+            <div class="status-box status-locked">
+              <span class="status-icon">⚠️</span>
+              <div>
+                <strong>Configuración Pendiente</strong>
+                <p>Bloqueado para alumnos hasta aprobar el grafo.</p>
+              </div>
+            </div>
+          }
+        </div>
+      </header>
+
+      <!-- Unapproved Graph Warning Banner -->
+      @if (!item.grafo_aprobado) {
+        <section class="warning-banner" role="alert">
+          <div class="warning-icon" aria-hidden="true">⚠️</div>
+          <div class="warning-text">
+            <h2>Configuración Curricular Requerida</h2>
+            <p>
+              Este curso no puede iniciar hasta que configures y apruebes su grafo de prerrequisitos.
+              Selecciona uno de los 3 métodos de inicio para abrir el editor visual:
+            </p>
+          </div>
+        </section>
+
+        <!-- 3 Convergence Starting Point Cards -->
+        <section class="starting-points-section" aria-label="Métodos de inicio para configurar el grafo">
+          <div class="points-grid">
+            <!-- Card 1: Plantilla Oficial CNB -->
+            <article class="point-card card-cnb">
+              <div class="point-badge">Recomendado</div>
+              <div class="point-icon-box">🏛️</div>
+              <h3 class="point-title">Plantilla Oficial CNB</h3>
+              <p class="point-desc">
+                Carga la progresión estándar del CNB de Guatemala como borrador editable.
+              </p>
+              <div class="point-footer">
+                <a
+                  [routerLink]="['/profesor/clases', item.id, 'grafo']"
+                  [queryParams]="{ origen: 'cnb' }"
+                  class="action-btn btn-cnb"
+                >
+                  Cargar Plantilla y Editar →
+                </a>
+              </div>
+            </article>
+
+            <!-- Card 2: Subir Material / Programa (PDF) -->
+            <article class="point-card card-pdf">
+              <div class="point-badge">Asistido por IA</div>
+              <div class="point-icon-box">📄</div>
+              <h3 class="point-title">Subir Material / Programa (PDF)</h3>
+              <p class="point-desc">
+                La IA extraerá un borrador de destrezas que podrás modificar en el editor visual.
+              </p>
+
+              <!-- Dropzone UI Container -->
+              <div class="dropzone-box">
+                <label for="pdf-upload" class="dropzone-label">
+                  <span class="upload-icon">📤</span>
+                  @if (selectedFileName()) {
+                    <span class="file-name">{{ selectedFileName() }}</span>
+                  } @else {
+                    <span class="drop-text">Arrastra tu programa o libro (PDF) aquí</span>
+                    <span class="browse-link">o haz clic para explorar</span>
+                  }
+                </label>
+                <input
+                  id="pdf-upload"
+                  type="file"
+                  accept=".pdf"
+                  class="sr-only-input"
+                  (change)="onFileSelected($event)"
+                />
+              </div>
+
+              <div class="point-footer">
+                <a
+                  [routerLink]="['/profesor/clases', item.id, 'grafo']"
+                  [queryParams]="{ origen: 'pdf' }"
+                  class="action-btn btn-pdf"
+                >
+                  Extraer y Editar →
+                </a>
+              </div>
+            </article>
+
+            <!-- Card 3: Crear Desde Cero -->
+            <article class="point-card card-blank">
+              <div class="point-badge">Manual</div>
+              <div class="point-icon-box">✏️</div>
+              <h3 class="point-title">Crear Desde Cero</h3>
+              <p class="point-desc">
+                Comienza con un lienzo en blanco para construir tus temas y dependencias manualmente.
+              </p>
+              <div class="point-footer">
+                <a
+                  [routerLink]="['/profesor/clases', item.id, 'grafo']"
+                  [queryParams]="{ origen: 'blanco' }"
+                  class="action-btn btn-blank"
+                >
+                  Abrir Lienzo en Blanco →
+                </a>
+              </div>
+            </article>
+          </div>
+        </section>
+      } @else {
+        <!-- Active Classroom Workspace -->
+        <section class="active-classroom-section">
+          <h2>Monitoreo del Aula en Vivo</h2>
+          <div class="active-panel">
+            <p>El grafo curricular está activo. Los alumnos pueden unirse con el código <strong>{{ item.codigo_acceso }}</strong>.</p>
+            <a [routerLink]="['/profesor/clases', item.id, 'grafo']" class="action-btn btn-cnb">
+              Ver Grafo de Prerrequisitos 🗺️
+            </a>
+          </div>
+        </section>
+      }
+    }
+  </main>
+</div>

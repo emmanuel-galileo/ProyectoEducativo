@@ -11,6 +11,7 @@ from app.db.supabase import get_supabase_client
 USERS_TO_SEED = [
     {"id": "admin-001", "type": "password", "value": "Admin123!"},
     {"id": "prof-001", "type": "password", "value": "Profe123!"},
+    {"id": "prof-002", "type": "password", "value": "Profe123!"},
     {"id": "padre-01", "type": "password", "value": "Padre123!"},
     {"id": "a01", "type": "pin", "value": "1234"},
     {"id": "a02", "type": "pin", "value": "1234"},

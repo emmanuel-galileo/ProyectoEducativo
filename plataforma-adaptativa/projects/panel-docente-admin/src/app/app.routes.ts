@@ -23,10 +23,34 @@ export const routes: Routes = [
   {
     path: 'profesor',
     canActivate: [roleGuard(['profesor'])],
-    loadComponent: () =>
-      import('./pages/profesor/profesor-dashboard.component').then(
-        (m) => m.ProfesorDashboardComponent
-      ),
+    children: [
+      {
+        path: '',
+        redirectTo: 'clases',
+        pathMatch: 'full',
+      },
+      {
+        path: 'clases',
+        loadComponent: () =>
+          import('./pages/profesor/mis-clases/mis-clases.component').then(
+            (m) => m.MisClasesComponent
+          ),
+      },
+      {
+        path: 'clases/:id',
+        loadComponent: () =>
+          import('./pages/profesor/detalle-clase/detalle-clase.component').then(
+            (m) => m.DetalleClaseComponent
+          ),
+      },
+      {
+        path: 'clases/:id/grafo',
+        loadComponent: () =>
+          import(
+            './pages/profesor/grafo/grafo-editor-placeholder.component'
+          ).then((m) => m.GrafoEditorPlaceholderComponent),
+      },
+    ],
   },
   { path: '**', redirectTo: '' },
 ];

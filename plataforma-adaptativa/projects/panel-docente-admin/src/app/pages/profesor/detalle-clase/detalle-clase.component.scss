@@ -1,0 +1,408 @@
+.workspace-layout {
+  min-height: 100vh;
+  background: #0b1329;
+  color: #f8fafc;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+}
+
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2.5rem;
+  background: #111e38;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+
+    .back-link {
+      color: #38bdf8;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.9rem;
+      transition: color 0.2s;
+      &:hover { color: #7dd3fc; }
+    }
+
+    .divider-slash {
+      color: #64748b;
+    }
+
+    .current-class-title {
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: #e2e8f0;
+    }
+  }
+
+  .user-meta {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+
+    .user-name {
+      font-size: 0.875rem;
+      color: #cbd5e1;
+    }
+
+    .logout-btn {
+      background: rgba(244, 63, 94, 0.15);
+      border: 1px solid rgba(244, 63, 94, 0.3);
+      color: #fb7185;
+      padding: 0.4rem 0.85rem;
+      border-radius: 0.5rem;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      &:hover { background: #e11d48; color: #fff; }
+    }
+  }
+}
+
+.workspace-body {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2.5rem 1.5rem;
+}
+
+.loading-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 1rem;
+  gap: 1rem;
+  color: #94a3b8;
+
+  .spinner {
+    width: 2rem;
+    height: 2rem;
+    border: 3px solid rgba(255, 255, 255, 0.1);
+    border-top-color: #38bdf8;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.course-hero {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(17, 30, 56, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 1.5rem;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  gap: 2rem;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .tags-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+
+    .badge-materia {
+      background: #2563eb;
+      color: #fff;
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 0.25rem 0.65rem;
+      border-radius: 0.4rem;
+    }
+    .badge-grade {
+      background: rgba(255, 255, 255, 0.08);
+      color: #cbd5e1;
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 0.25rem 0.65rem;
+      border-radius: 0.4rem;
+    }
+    .badge-code {
+      background: rgba(56, 189, 248, 0.12);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      color: #38bdf8;
+      font-family: monospace;
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 0.25rem 0.65rem;
+      border-radius: 0.4rem;
+    }
+  }
+
+  .course-title {
+    font-size: 1.75rem;
+    font-weight: 800;
+    margin: 0 0 0.5rem;
+    color: #ffffff;
+  }
+
+  .course-meta {
+    color: #94a3b8;
+    font-size: 0.9rem;
+    margin: 0;
+  }
+
+  .status-box {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 1.5rem;
+    border-radius: 1rem;
+    min-width: 280px;
+
+    .status-icon {
+      font-size: 1.75rem;
+    }
+
+    strong {
+      display: block;
+      font-size: 0.95rem;
+      margin-bottom: 0.2rem;
+    }
+
+    p {
+      margin: 0;
+      font-size: 0.8rem;
+      color: #94a3b8;
+    }
+
+    &.status-locked {
+      background: rgba(251, 191, 36, 0.1);
+      border: 1px solid rgba(251, 191, 36, 0.25);
+      strong { color: #fbbf24; }
+    }
+
+    &.status-active {
+      background: rgba(74, 222, 128, 0.1);
+      border: 1px solid rgba(74, 222, 128, 0.25);
+      strong { color: #4ade80; }
+    }
+  }
+}
+
+.warning-banner {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.25rem;
+  background: rgba(234, 88, 12, 0.12);
+  border: 1px solid rgba(234, 88, 12, 0.35);
+  border-radius: 1rem;
+  padding: 1.5rem 1.75rem;
+  margin-bottom: 2rem;
+
+  .warning-icon {
+    font-size: 2rem;
+  }
+
+  .warning-text {
+    h2 {
+      margin: 0 0 0.35rem;
+      font-size: 1.15rem;
+      color: #fb923c;
+    }
+    p {
+      margin: 0;
+      color: #fed7aa;
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+  }
+}
+
+.starting-points-section {
+  .points-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+
+    @media (max-width: 900px) {
+      grid-template-columns: 1fr;
+    }
+  }
+}
+
+.point-card {
+  position: relative;
+  background: rgba(17, 30, 56, 0.7);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 1.25rem;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 0 15px 25px -5px rgba(0, 0, 0, 0.3);
+  transition: all 0.25s ease;
+
+  &:hover {
+    transform: translateY(-4px);
+    border-color: rgba(56, 189, 248, 0.3);
+    box-shadow: 0 20px 30px -5px rgba(0, 0, 0, 0.5);
+  }
+
+  .point-badge {
+    position: absolute;
+    top: 1.25rem;
+    right: 1.25rem;
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 0.2rem 0.55rem;
+    border-radius: 9999px;
+  }
+
+  &.card-cnb .point-badge {
+    background: rgba(56, 189, 248, 0.15);
+    color: #38bdf8;
+    border: 1px solid rgba(56, 189, 248, 0.3);
+  }
+
+  &.card-pdf .point-badge {
+    background: rgba(168, 85, 247, 0.15);
+    color: #c084fc;
+    border: 1px solid rgba(168, 85, 247, 0.3);
+  }
+
+  &.card-blank .point-badge {
+    background: rgba(148, 163, 184, 0.15);
+    color: #cbd5e1;
+    border: 1px solid rgba(148, 163, 184, 0.3);
+  }
+
+  .point-icon-box {
+    font-size: 2.5rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .point-title {
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin: 0 0 0.6rem;
+    color: #ffffff;
+  }
+
+  .point-desc {
+    font-size: 0.875rem;
+    color: #94a3b8;
+    line-height: 1.5;
+    margin: 0 0 1.5rem;
+    flex: 1;
+  }
+
+  .dropzone-box {
+    margin-bottom: 1.5rem;
+    background: rgba(15, 23, 42, 0.6);
+    border: 2px dashed rgba(255, 255, 255, 0.15);
+    border-radius: 0.85rem;
+    padding: 1.25rem 1rem;
+    text-align: center;
+    transition: all 0.2s ease;
+
+    &:hover {
+      border-color: #a855f7;
+      background: rgba(15, 23, 42, 0.9);
+    }
+
+    .dropzone-label {
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.35rem;
+
+      .upload-icon {
+        font-size: 1.5rem;
+      }
+      .file-name {
+        font-size: 0.85rem;
+        font-weight: 700;
+        color: #4ade80;
+        word-break: break-all;
+      }
+      .drop-text {
+        font-size: 0.8rem;
+        color: #cbd5e1;
+      }
+      .browse-link {
+        font-size: 0.75rem;
+        color: #a855f7;
+        text-decoration: underline;
+      }
+    }
+
+    .sr-only-input {
+      display: none;
+    }
+  }
+
+  .action-btn {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    text-align: center;
+    padding: 0.8rem 1rem;
+    border-radius: 0.75rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    &.btn-cnb {
+      background: linear-gradient(135deg, #0284c7, #0369a1);
+      color: #ffffff;
+      box-shadow: 0 10px 15px -3px rgba(2, 132, 199, 0.35);
+      &:hover { background: linear-gradient(135deg, #0369a1, #075985); }
+    }
+
+    &.btn-pdf {
+      background: linear-gradient(135deg, #9333ea, #7e22ce);
+      color: #ffffff;
+      box-shadow: 0 10px 15px -3px rgba(147, 51, 234, 0.35);
+      &:hover { background: linear-gradient(135deg, #7e22ce, #6b21a8); }
+    }
+
+    &.btn-blank {
+      background: rgba(30, 41, 59, 0.8);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #ffffff;
+      &:hover { background: rgba(51, 65, 85, 0.9); }
+    }
+  }
+}
+
+.active-classroom-section {
+  background: rgba(17, 30, 56, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 1.5rem;
+  padding: 2rem;
+
+  h2 {
+    margin: 0 0 1rem;
+    font-size: 1.35rem;
+  }
+
+  .active-panel {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    p {
+      margin: 0;
+      color: #cbd5e1;
+      font-size: 1rem;
+    }
+  }
+}
