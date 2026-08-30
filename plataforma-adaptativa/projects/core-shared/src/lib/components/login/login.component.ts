@@ -1,11 +1,12 @@
 import { Component, input, signal, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { RouterLink } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { SiblingPortalConfig, UserRole } from '../../models/auth.models';
 
 @Component({
   selector: 'lib-login',
-  imports: [FormsModule],
+  imports: [FormsModule, RouterLink],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
 })

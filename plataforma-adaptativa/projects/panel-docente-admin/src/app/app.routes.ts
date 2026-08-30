@@ -2,7 +2,13 @@ import { Routes } from '@angular/router';
 import { roleGuard } from './guards/role.guard';
 
 export const routes: Routes = [
-  { path: '', redirectTo: 'login', pathMatch: 'full' },
+  {
+    path: '',
+    loadComponent: () =>
+      import('./pages/portal-select/portal-select-page.component').then(
+        (m) => m.PortalSelectPageComponent
+      ),
+  },
   {
     path: 'login',
     loadComponent: () =>
@@ -22,5 +28,5 @@ export const routes: Routes = [
         (m) => m.ProfesorDashboardComponent
       ),
   },
-  { path: '**', redirectTo: 'login' },
+  { path: '**', redirectTo: '' },
 ];

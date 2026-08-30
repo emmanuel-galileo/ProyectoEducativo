@@ -1,0 +1,79 @@
+<div class="gateway-wrapper">
+  <div class="glow-orb glow-1" aria-hidden="true"></div>
+  <div class="glow-orb glow-2" aria-hidden="true"></div>
+
+  <main class="gateway-container" role="main">
+    <header class="gateway-header">
+      <div class="brand-badge">
+        <span class="brand-icon" aria-hidden="true">🎓</span>
+        <span class="brand-name">Plataforma Educativa Adaptativa</span>
+      </div>
+      <h1 class="gateway-title">Bienvenido al Ecosistema de Aprendizaje</h1>
+      <p class="gateway-subtitle">
+        Selecciona tu tipo de perfil para acceder a tu espacio personalizado.
+      </p>
+    </header>
+
+    <div class="cards-grid" role="group" aria-label="Opciones de perfil de usuario">
+      <!-- Card 1: Estudiantes y Familias -->
+      <button
+        type="button"
+        class="role-card card-students"
+        (click)="selectStudentsParents()"
+        aria-label="Ingresar como Estudiante o Familia"
+      >
+        <div class="card-icon-wrapper icon-student">
+          <span class="card-icon" aria-hidden="true">🚀</span>
+        </div>
+        <div class="card-content">
+          <div class="card-tag">Portal Móvil &bull; PWA</div>
+          <h2 class="card-title">Estudiantes y Familias</h2>
+          <p class="card-desc">
+            Ruta de aprendizaje adaptativa individual, mapas interactivos de conocimiento, retos diarios y seguimiento de tutores.
+          </p>
+        </div>
+        <div class="card-footer">
+          <span class="action-label">
+            @if (currentPortalType() === 'student-parent') {
+              Ingresar con Usuario / PIN →
+            } @else {
+              Abrir App Estudiantes ↗
+            }
+          </span>
+        </div>
+      </button>
+
+      <!-- Card 2: Docentes y Administradores -->
+      <button
+        type="button"
+        class="role-card card-teachers"
+        (click)="selectTeachersAdmins()"
+        aria-label="Ingresar como Docente o Administrador"
+      >
+        <div class="card-icon-wrapper icon-teacher">
+          <span class="card-icon" aria-hidden="true">👩‍🏫</span>
+        </div>
+        <div class="card-content">
+          <div class="card-tag">Portal Web Institucional</div>
+          <h2 class="card-title">Docentes y Administración</h2>
+          <p class="card-desc">
+            Configuración curricular, diseño de grafos de conocimiento, monitoreo en tiempo real del aula y alertas de rezago.
+          </p>
+        </div>
+        <div class="card-footer">
+          <span class="action-label">
+            @if (currentPortalType() === 'teacher-admin') {
+              Ingresar con Correo →
+            } @else {
+              Abrir Portal Docente ↗
+            }
+          </span>
+        </div>
+      </button>
+    </div>
+
+    <footer class="gateway-footer">
+      <span class="school-label">Colegio Demo &bull; Ciclo Escolar 2026</span>
+    </footer>
+  </main>
+</div>
