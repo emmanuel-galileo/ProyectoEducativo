@@ -4,7 +4,7 @@
   "compileOnSave": false,
   "compilerOptions": {
     "paths": {
-      "core-shared": ["./dist/core-shared"]
+      "core-shared": ["./projects/core-shared/src/public-api.ts", "./dist/core-shared"]
     },
     "noImplicitOverride": true,
     "noPropertyAccessFromIndexSignature": true,

@@ -1,0 +1,158 @@
+<div class="login-wrapper">
+  <div class="glow-orb glow-1" aria-hidden="true"></div>
+  <div class="glow-orb glow-2" aria-hidden="true"></div>
+
+  <main class="login-card" role="main">
+    <!-- Header -->
+    <header class="card-header">
+      <div class="brand-badge">
+        <span class="brand-icon" aria-hidden="true">🎓</span>
+        <span class="brand-name">Plataforma Adaptativa</span>
+      </div>
+      <h1 class="portal-title">{{ appName() }}</h1>
+      <p class="portal-subtitle">{{ portalSubtitle() }}</p>
+    </header>
+
+    <!-- Error Alert -->
+    @if (auth.errorMessage(); as error) {
+      <div class="alert alert-error" role="alert" aria-live="assertive">
+        <span class="alert-icon" aria-hidden="true">⚠️</span>
+        <div class="alert-content">
+          <strong>Error de acceso:</strong> {{ error }}
+        </div>
+      </div>
+    }
+
+    <!-- Form -->
+    <form (ngSubmit)="onSubmit()" class="login-form" novalidate>
+      <div class="form-group">
+        <label for="login-identifier">Correo Institucional o Usuario</label>
+        <div class="input-wrapper">
+          <span class="input-icon" aria-hidden="true">👤</span>
+          <input
+            id="login-identifier"
+            type="text"
+            [ngModel]="identifier()"
+            (ngModelChange)="identifier.set($event)"
+            name="identifier"
+            placeholder="ej. maria.lopez@colegio.edu.gt o ana.perez"
+            required
+            autocomplete="username"
+          />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="login-secret">Contraseña o PIN</label>
+        <div class="input-wrapper">
+          <span class="input-icon" aria-hidden="true">🔒</span>
+          <input
+            id="login-secret"
+            [type]="showSecret() ? 'text' : 'password'"
+            [ngModel]="secret()"
+            (ngModelChange)="secret.set($event)"
+            name="secret"
+            placeholder="Contraseña o PIN de 4 dígitos"
+            required
+            autocomplete="current-password"
+          />
+          <button
+            type="button"
+            class="toggle-btn"
+            (click)="toggleSecretVisibility()"
+            [attr.aria-label]="showSecret() ? 'Ocultar contraseña' : 'Ver contraseña'"
+          >
+            {{ showSecret() ? '👁️' : '🔒' }}
+          </button>
+        </div>
+      </div>
+
+      <button
+        type="submit"
+        class="submit-btn"
+        [disabled]="auth.isLoading() || !identifier().trim() || !secret().trim()"
+      >
+        @if (auth.isLoading()) {
+          <span class="spinner" aria-hidden="true"></span> Validando acceso...
+        } @else {
+          Ingresar al Portal
+        }
+      </button>
+    </form>
+
+    <!-- Demo Access Chips -->
+    <section class="demo-section" aria-label="Cuentas de prueba para desarrollo">
+      <div class="divider" aria-hidden="true">
+        <span>Cuentas de Prueba</span>
+      </div>
+      <div class="chip-grid">
+        <button
+          type="button"
+          class="demo-chip chip-admin"
+          (click)="fillDemo('admin@colegio.edu.gt', 'Admin123!')"
+          aria-label="Cargar credenciales de Administrador: Carmen Girón"
+        >
+          <span class="chip-role">Admin</span>
+          <span class="chip-hint">Carmen Girón</span>
+        </button>
+        <button
+          type="button"
+          class="demo-chip chip-profesor"
+          (click)="fillDemo('maria.lopez@colegio.edu.gt', 'Profe123!')"
+          aria-label="Cargar credenciales de Profesor: María López"
+        >
+          <span class="chip-role">Profesor</span>
+          <span class="chip-hint">María López</span>
+        </button>
+        <button
+          type="button"
+          class="demo-chip chip-alumno"
+          (click)="fillDemo('ana.perez', '1234')"
+          aria-label="Cargar credenciales de Alumno: Ana Pérez con PIN"
+        >
+          <span class="chip-role">Alumno</span>
+          <span class="chip-hint">Ana Pérez (PIN)</span>
+        </button>
+        <button
+          type="button"
+          class="demo-chip chip-padre"
+          (click)="fillDemo('carlos.solis@correo.com', 'Padre123!')"
+          aria-label="Cargar credenciales de Padre: Carlos Solís"
+        >
+          <span class="chip-role">Padre</span>
+          <span class="chip-hint">Carlos Solís</span>
+        </button>
+      </div>
+    </section>
+  </main>
+
+  <!-- Role Mismatch Modal / Notification Overlay -->
+  @if (auth.mismatchNotice(); as notice) {
+    <div class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+      <div class="modal-card">
+        <div class="modal-icon-badge" aria-hidden="true">🔄</div>
+        <h2 id="modal-title" class="modal-title">Portal Incompatible</h2>
+        <p class="modal-greeting">
+          Hola, <strong>{{ notice.userName }}</strong> (Rol: <em>{{ notice.userRole }}</em>)
+        </p>
+        <p class="modal-message">{{ notice.message }}</p>
+        <div class="modal-actions">
+          <a
+            [href]="notice.targetPortalUrl"
+            class="modal-btn modal-btn-primary"
+            target="_self"
+          >
+            Abrir {{ notice.targetPortalName }} ↗
+          </a>
+          <button
+            type="button"
+            class="modal-btn modal-btn-secondary"
+            (click)="auth.clearMismatchNotice()"
+          >
+            Permanecer aquí
+          </button>
+        </div>
+      </div>
+    </div>
+  }
+</div>
